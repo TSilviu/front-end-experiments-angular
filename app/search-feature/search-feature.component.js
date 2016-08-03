@@ -56,5 +56,8 @@ angular
 			        return (angular.lowercase(item.name).indexOf(angular.lowercase(vm.query) || '') !== -1);
 			    };
 			}
-		]
+		],
+		 bindings: {
+		    filtering: '<'
+		}
 	});

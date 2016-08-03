@@ -40,7 +40,7 @@
 			<li ng-repeat = "item in $ctrl.searchArray | filter: $ctrl.search | orderBy: $ctrl.orderProp"
 				ng-if     = "$ctrl.filtering == item.type || $ctrl.filtering == 'all'">
 				
-				<span>{{item.type}}</span>
+				<span><b>{{item.type}}</b></span>
 				<span>{{item.name}}</span>
 				<span ng-show="item.bws">{{item.bws}} <i>bathing waters</i></span>
 			</li>

@@ -60,20 +60,31 @@ describe('component: searchFeature', function() {
 		});
 	});
 
+	describe('search_dataservice', function(){
+		
+	});
+
+	describe('Test to print out jasmine version', function() {
+	  it('prints jasmine version', function() {
+	    console.log('jasmine-version:');
+	    console.log(jasmine.version || (jasmine.getEnv().versionString && jasmine.getEnv().versionString()));
+	  });
+	});
+
 	/*//Test suite for search_dataservice
 	describe('search_dataservice', function(){
 		var search_dataservice;
 		var	$q;
 	 	var	requestBathingWatersDeferred;
 	 	var	mockedRequestService = function(){
-			return {
+			//return {
 				requestBathingWaters: jasmine.createSpy()
-			}
+		//	}
 		};
 
 		beforeEach(function(){
 			module(function($provide){
-		    	$provide.service('requestservice', mockedRequestService);
+		    	$provide.service('search_requestservice', mockedRequestService);
 		    });
 
 		    inject(function(_search_dataservice_, _$q_){
@@ -83,11 +94,11 @@ describe('component: searchFeature', function() {
 		})
 
 		describe('getObjects()', function(){
-			it('should call requestservice.requestBathingWaters()', function(){
+			it('should call search_requestservice.requestBathingWaters()', function(){
 				var dummyData = ['bw1', 'bw2'];
 				expectRequestBathingWaters();
 				
-				search_dataservice.getObjects();
+				search_dataservice.retrieveSearchArray();
 				flushRequestBathingWaters();
 
 				expect(mockedRequestService.requestBathingWaters()).toHaveBeenCalled();
@@ -96,12 +107,11 @@ describe('component: searchFeature', function() {
 
 		function expectRequestBathingWaters() {
 			requestBathingWatersDeferred = $q.defer();
-			console.log(mockedRequestService.requestBathingWaters);
 			mockedRequestService.requestBathingWaters.and.returnValue(requestBathingWatersDeferred.promise);
 		}
 
 		function flushRequestBathingWaters(data) {
 			requestBathingWatersDeferred.resolve(data);
 		}
-	});*/	
+	});	*/
 });

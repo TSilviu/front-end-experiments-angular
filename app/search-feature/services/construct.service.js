@@ -2,70 +2,27 @@
 
 angular
 	.module('searchFeature')
-	/*.factory('constructservice',
+
+	// Service to construct the searchable array
+	.factory('construct_service', 
+		[ 
 
 		function(){
-			var service = {
-				constructSearchArray: constructSearchArray,
-
-			}
-		}
-	)\*/
-	
-	.factory('search_dataservice', 
-		['$q',
-		 'apiservice',
-		 'requestservice',
-
-		function($q, apiservice, requestservice){
 			
 			var service = {
-				getSearchArray: 	 getSearchArray, 
-				retrieveSearchArray: retrieveSearchArray	 
-			};
+				constructSearchArray: constructSearchArray
+			}
 
 			var searchArray = [];
 
 			return service;
-
-			// Function to get the search array after
-			// page has already loaded
-			function getSearchArray(){
-				var deferred = $q.defer();
-				deferred.resolve(searchArray);
-				return deferred.promise;
-			}
-
-			// Function to retrieve all search objects
-			function retrieveSearchArray(){
-				
-				if(searchArray.length == 0){
-					return loadDataFromApi()
-				} else {
-					return this.getSearchArray();
-				}
-			}
-
 			
-			// PRIVATE FUNCTIONS
+			// FUNCTIONS TO CONSTRUCT THE SEARCH ARRAY
 			
-			// Function to load the bathing waters array
-			// from the api end-point
-			function loadDataFromApi(){
-				var API_CALL = apiservice.getBathingWatersApi();
-
-				return requestservice.requestBathingWaters(API_CALL).then(function onSuccess(bwArray){
-					constructSearchArray(bwArray);
-					return searchArray;
-				}, function onFailure(error){
-					return "Failed at `loadDataFromApi()`" + error;
-				});
-			}
-
-			// FUNCTIONS TO CONSTRUCT SEARCH ARRAY
-
-			/**
-			  * 
+			/** Function to start the construction of the
+			  * search array
+			  *
+			  * @bwArray - holds a list of bathing waters 
 			  */
 			function constructSearchArray(bwArray){
 				var hasWaterCompany = [],
@@ -73,11 +30,15 @@ angular
 					hasCounty		= [],
 					hasCountry		= [];
 
+				// Create boolean arrays used to determine if object has
+				// already been added to the search array
 				hasWaterCompany = initializeWaterCompanies(bwArray, hasWaterCompany);
 				hasDistrict     = initializeDistricts(bwArray, hasDistrict)
 				hasCounty   	= initializeCounties(bwArray, hasCounty);
 				hasCountry		= initializeCountries(bwArray, hasCountry);
 
+				// Go through each bathing water and add the infromation
+				// to the search array
 				for(var index = 0; index < bwArray.length; index++){
 					addBathingWater(bwArray[index]);
 					hasWaterCompany = addWaterCompany(bwArray[index], hasWaterCompany);
@@ -85,8 +46,17 @@ angular
 					hasCounty		= addCounty(bwArray[index], hasCounty);
 					hasCountry		= addCountry(bwArray[index], hasCountry);
 				}
+				
+				return searchArray;
 			}
 
+			
+			/** Function to initialize the boolean array of
+			  * water companies
+			  *
+			  * @bwArray  - holds a list of bathing waters
+			  * boolArray - boolean array to be initialized 
+			  */
 			function initializeWaterCompanies(bwArray, boolArray){
 				for(var index = 0; index < bwArray.length; index++){
 					var bw = bwArray[index],
@@ -132,6 +102,11 @@ angular
 			}
 			
 
+			/** Function to add the current bathing water
+			  * to the search array
+			  *
+			  * @bw - holds current bathing water
+			  */
 			function addBathingWater(bw){
 				var object = {};
 
@@ -141,6 +116,15 @@ angular
 				searchArray.push(object);
 			}
 
+			/** Function to add the water company of
+			  * the current bathing water.
+			  *
+			  * It will just increase its number of bw
+			  * if already exists.
+			  
+			  * @bw        - holds current bathing water
+			  * @boolArray - the bool array for bathing waters
+			  */
 			function addWaterCompany(bw, boolArray){
 				var object  = {};
 				var waterCompany = bw.appointedSewerageUndertaker.name._value;
@@ -241,4 +225,4 @@ angular
 				return boolArray;
 			}
 		}
-	]);
+	])

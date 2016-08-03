@@ -3,29 +3,6 @@
 angular
 	.module('myApp')
 
-	// Service for making requests to the API end-points
-	.factory('requestservice', 
-		['$http',
-		
-		function($http){
-			var service = {
-				requestBathingWaters: requestBathingWaters	
-			}
-			
-			return service;
-
-			// Get all bathing waters
-			function requestBathingWaters(API_CALL){
-				return $http.get(API_CALL)
-			    .then(function onSuccess(response){
-					return response.data.result.items;
-				}, function onFailure(response){
-					$log.error("Failed http request at 'requestservice.getBathingWaters()':" + response);
-					return "Failed http request at 'requestservice.getBathingWaters()'";
-				});
-			}
-	}])
-
 	// Service to build the URIs for the API calls
 	.factory('apiservice', [ function($q){
 
